@@ -50,6 +50,10 @@ public:
      * @return the greatest difference of height between two points
      */
     virtual double getPenteMax() const;
+
+    QImage drawImage(int width, int height);
+
+
 };
 
 inline double TerrainImage::getHauteurMax() const

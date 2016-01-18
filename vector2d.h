@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cmath>
 #include "vector3d.h"
+#include <QVector>
 
 class Vector3D;
 /**
@@ -88,6 +89,9 @@ public:
      * @return the shortest distance between the 2D point and the line
      */
     double distanceToLine(const Vector2D& point, const Vector2D& direction) const;
+
+    static QVector<Vector2D> randSquare(const Vector2D& min, const Vector2D& max, int nbPoints, double rayon);
+
 
     /**
      * Adds a vector to this vector and returns its reference

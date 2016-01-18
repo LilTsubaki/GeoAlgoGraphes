@@ -68,3 +68,25 @@ double TerrainImage::getPenteMax() const
     }
     return max;
 }
+
+QImage TerrainImage::drawImage(int width, int height)
+{
+    QImage im(width, height, QImage::Format_ARGB32);
+    double min = getHauteurMin();
+    double max = getHauteurMax();
+    Vector2D a = getA();
+    Vector2D b = getB();
+
+    for(float i = 0; i <width; i++)
+    {
+        for(float j = 0; j < height; j++)
+        {
+            Vector2D p(a.x()*(i/width)+b.x()*(1-i/width),a.y()*(j/height)+b.y()*(1-j/height));
+            double h=getHauteur(p);
+            int col=(int)((h-min)/(max-min)*255);
+            //std::cout << col << std::endl;
+            im.setPixel(i,j,QColor(col,col,col,0).rgba());
+        }
+    }
+    return im;
+}
