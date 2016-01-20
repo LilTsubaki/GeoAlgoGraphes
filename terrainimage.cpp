@@ -69,6 +69,24 @@ double TerrainImage::getPenteMax() const
     return max;
 }
 
+double TerrainImage::distance(const Vector2D &p1, const Vector2D &p2,int e)
+{
+    double dist=0;
+    for(int i=0;i<e-1;++i){
+        double f1=((double)i)/(e-1);
+        double f2=((double)i+1)/(e-1);
+        Vector2D po1=p1*f1+p2*(1-f1);
+        Vector2D po2=p1*f2+p2*(1-f2);
+
+        double h1=getHauteur(po1);
+        double h2=getHauteur(po2);
+        dist+= Vector3D(po1,h1).distanceToPoint(Vector3D(po2,h2));
+
+    }
+
+    return dist;
+}
+
 bool TerrainImage::addVille(QImage& im,const QVector<Vector2D>& list,double rayon)
 {
     int width=im.width();

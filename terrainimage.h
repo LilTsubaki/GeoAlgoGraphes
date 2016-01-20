@@ -16,6 +16,10 @@ private:
     double noir; /**< The height value associated with black */
 
 public:
+
+
+    double distance(const Vector2D& p1,const Vector2D& p2);
+
     bool addVille(QImage& im, const QVector<Vector2D>& list, double rayon);
 
     /**

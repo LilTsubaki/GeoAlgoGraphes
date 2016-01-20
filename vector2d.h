@@ -4,6 +4,7 @@
 #include <cmath>
 #include "vector3d.h"
 #include <QVector>
+#include <terrainimage.h>
 
 class Vector3D;
 /**
@@ -93,6 +94,7 @@ public:
     static QVector<Vector2D> randSquare(const Vector2D& min, const Vector2D& max, int nbPoints, double rayon);
 
     static QVector<Vector2D> getBetaSquel(const QVector<Vector2D>& list,double gamma);
+    static QVector<Vector2D> getBetaSquel(const QVector<Vector2D>& list,double gamma,TerrainImage& t);
 
     /**
      * Adds a vector to this vector and returns its reference
