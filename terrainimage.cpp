@@ -2,7 +2,8 @@
 #include <QColor>
 #include <iostream>
 #include <cmath>
-
+#include <QPixmap>
+#include <QPainter>
 
 TerrainImage::TerrainImage(const QImage& i, double bl, double no, const Vector2D& a, const Vector2D& b):Terrain(a,b), blanc(bl), noir(no)
 {
@@ -137,4 +138,32 @@ QImage TerrainImage::drawImage(int width, int height)
         }
     }
     return im;
+}
+
+void TerrainImage::drawRoad(QVector<Vector2D> cities, QImage& imgRaw)
+{
+
+    QPainter p;
+    p.begin(&imgRaw);
+    p.setPen (Qt::red);
+
+    Vector2D a = getA();
+    Vector2D BMoinsA = getB() - a;
+
+    for(int i = 0; i < cities.size(); i+=2)
+    {
+        double x1 = (cities[i].x()-a.x())/BMoinsA.x();
+        double y1 = (cities[i].y()-a.y())/BMoinsA.y();
+        double x2 = (cities[i+1].x()-a.x())/BMoinsA.x();
+        double y2 = (cities[i+1].y()-a.y())/BMoinsA.y();
+
+        x1 *= imgRaw.width();
+        y1 = (1-y1)*imgRaw.height();
+        x2 *= imgRaw.width();
+        y2 = (1-y2)*imgRaw.height();
+
+        p.drawLine (x1, y1, x2, y2);
+
+    }
+    p.end ();
 }

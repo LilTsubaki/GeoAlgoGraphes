@@ -9,11 +9,14 @@ int main(int argc, char *argv[])
     std::cout << qi.width() << "   " << qi.height() << std::endl;
     QImage newqi = ti.drawImage(qi.width(),qi.height());
 
-    QVector<Vector2D> list=Vector2D::randSquare(Vector2D(0,0), Vector2D(1000,1000),10,50);
+    QVector<Vector2D> list=Vector2D::randSquare(Vector2D(0,0), Vector2D(1000,1000),1000,10);
 
     std::cout << "fin rand " <<list.size()<< std::endl;
-    ti.addVille(newqi,list,25);
+    ti.addVille(newqi,list,5);
 
+    QVector<Vector2D> roads = Vector2D::getBetaSquel(list, 2);
+
+    ti.drawRoad(roads, newqi);
 
     newqi.save("C:/Users/etu/Desktop/new.png");
 

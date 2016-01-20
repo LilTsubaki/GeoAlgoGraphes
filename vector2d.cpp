@@ -87,21 +87,22 @@ QVector<Vector2D> Vector2D::getBetaSquel(const QVector<Vector2D> &list, double g
 {
     QVector<Vector2D> squel;
     for(int i=0;i<list.size();++i){
-        for(int j=0;j<list.size();++j){
-            if(i!=j){
-                bool b=true;
-                for(int k=0;k<list.size();++k){
-                    if(i!=k&&k!=j){
-                        if(pow(list[i].distanceToPoint2D(list[j]),gamma)>=pow(list[k].distanceToPoint2D(list[j]),gamma)+pow(list[i].distanceToPoint2D(list[k]),gamma)){
-                            b=false;
-                            break;
-                        }
+        for(int j=i+1;j<list.size();++j){
+            bool b=true;
+            for(int k=0;k<list.size();++k){
+                if(i!=k&&k!=j){
+                    double distij=list[i].distanceToPoint2D(list[j]);
+                    double distik=list[i].distanceToPoint2D(list[k]);
+                    double distjk=list[j].distanceToPoint2D(list[k]);
+                    if(pow(distij,gamma)>pow(distik,gamma)+pow(distjk,gamma)){
+                        b=false;
+                        break;
                     }
                 }
-                if(b){
-                    squel<<list[i]<<list[j];
-                }
-
+            }
+            if(b)
+            {
+                squel<<list[i]<<list[j];
             }
         }
     }
