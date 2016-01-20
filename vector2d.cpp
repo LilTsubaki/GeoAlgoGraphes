@@ -45,6 +45,8 @@ QVector<Vector2D> Vector2D::randSquare(const Vector2D &min, const Vector2D &max,
             if(point.distanceToPoint2DSquared(points[j]) < rayon *rayon * 4)
             {
                 b = true;
+
+                break;
             }
         }
 
@@ -55,4 +57,28 @@ QVector<Vector2D> Vector2D::randSquare(const Vector2D &min, const Vector2D &max,
     }
 
     return points;
+}
+
+QVector<Vector2D> Vector2D::getBetaSquel(const QVector<Vector2D> &list, double gamma)
+{
+    QVector<Vector2D> squel;
+    for(int i=0;i<list.size();++i){
+        for(int j=0;j<list.size();++j){
+            if(i!=j){
+                bool b=true;
+                for(int k=0;k<list.size();++k){
+                    if(i!=k&&k!=j){
+                        if(pow(list[i].distanceToPoint2D(list[j]),gamma)>=pow(list[k].distanceToPoint2D(list[j]),gamma)+pow(list[i].distanceToPoint2D(list[k]),gamma)){
+                            b=false;
+                            break;
+                        }
+                    }
+                }
+                if(b){
+                    squel<<list[i]<<list[j];
+                }
+
+            }
+        }
+    }
 }

@@ -69,6 +69,36 @@ double TerrainImage::getPenteMax() const
     return max;
 }
 
+bool TerrainImage::addVille(QImage& im,const QVector<Vector2D>& list,double rayon)
+{
+    int width=im.width();
+    int height=im.height();
+    double min = getHauteurMin();
+    double max = getHauteurMax();
+    Vector2D a = getA();
+    Vector2D b = getB();
+
+    for(float i = 0; i <width; i++)
+    {
+        for(float j = 0; j < height; j++)
+        {
+            Vector2D p(a.x()*((width-1-i)/width)+b.x()*(1-(width-1-i)/width),a.y()*(j/height)+b.y()*(1-j/height));
+            bool isIn=false;
+            for(int k=0;k<list.size();++k){
+                if(list[k].distanceToPoint2DSquared(p)<=rayon*rayon){
+
+                    isIn=true;
+                    break;
+                }
+            }
+            if(isIn)
+            im.setPixel(i,j,QColor(0,255,0,255).rgba());
+        }
+    }
+    return true;
+}
+
+
 QImage TerrainImage::drawImage(int width, int height)
 {
     QImage im(width, height, QImage::Format_ARGB32);
@@ -81,11 +111,11 @@ QImage TerrainImage::drawImage(int width, int height)
     {
         for(float j = 0; j < height; j++)
         {
-            Vector2D p(a.x()*(i/width)+b.x()*(1-i/width),a.y()*(j/height)+b.y()*(1-j/height));
+            Vector2D p(a.x()*((width-1-i)/width)+b.x()*(1-(width-1-i)/width),a.y()*(j/height)+b.y()*(1-j/height));
             double h=getHauteur(p);
             int col=(int)((h-min)/(max-min)*255);
             //std::cout << col << std::endl;
-            im.setPixel(i,j,QColor(col,col,col,0).rgba());
+            im.setPixel(i,j,QColor(col,col,col,255).rgba());
         }
     }
     return im;

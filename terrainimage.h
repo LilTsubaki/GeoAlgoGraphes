@@ -16,6 +16,8 @@ private:
     double noir; /**< The height value associated with black */
 
 public:
+    bool addVille(QImage& im, const QVector<Vector2D>& list, double rayon);
+
     /**
      * Constructor of TerrainImage
      * @param[in] i The image to read the grey value from

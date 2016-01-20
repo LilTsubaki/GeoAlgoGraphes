@@ -92,6 +92,7 @@ public:
 
     static QVector<Vector2D> randSquare(const Vector2D& min, const Vector2D& max, int nbPoints, double rayon);
 
+    static QVector<Vector2D> getBetaSquel(const QVector<Vector2D>& list,double gamma);
 
     /**
      * Adds a vector to this vector and returns its reference

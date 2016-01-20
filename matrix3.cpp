@@ -123,6 +123,7 @@ Matrix3 Matrix3::identity()
     float tab[9] = { 1, 0, 0,
                      0, 1, 0,
                      0, 0, 1};
+    return Matrix3(tab);
 }
 
 Matrix3 Matrix3::rotateX(float angle)
