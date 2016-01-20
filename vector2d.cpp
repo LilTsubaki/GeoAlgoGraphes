@@ -81,4 +81,5 @@ QVector<Vector2D> Vector2D::getBetaSquel(const QVector<Vector2D> &list, double g
             }
         }
     }
+    return squel;
 }
