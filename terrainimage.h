@@ -19,7 +19,9 @@ public:
 
 
     QVector<Vector2D> getBetaSquelTerrain(const QVector<Vector2D>& list,double gamma);
+    QVector<Vector2D> getBetaSquelPente(const QVector<Vector2D>& list,double gamma);
     double distance(const Vector2D& p1,const Vector2D& p2,int e);
+    double distancePente(const Vector2D &p1, const Vector2D &p2,int e);
 
     bool addVille(QImage& im, const QVector<Vector2D>& list, double rayon);
     void drawRoad(QVector<Vector2D> cities, QImage &imgRaw);

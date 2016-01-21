@@ -4,6 +4,7 @@
 #include <cmath>
 #include <QPixmap>
 #include <QPainter>
+#include <sstream>
 
 TerrainImage::TerrainImage(const QImage& i, double bl, double no, const Vector2D& a, const Vector2D& b):Terrain(a,b), blanc(bl), noir(no)
 {
@@ -74,12 +75,11 @@ double TerrainImage::getPenteMax() const
 QVector<Vector2D> TerrainImage::getBetaSquelTerrain(const QVector<Vector2D> &list, double gamma){
     QVector<Vector2D> squel;
     for(int i=0;i<list.size();++i){
-        for(int j=0;j<list.size();++j){
-            if(i!=j){
+        for(int j=i+1;j<list.size();++j){
                 bool b=true;
                 for(int k=0;k<list.size();++k){
                     if(i!=k&&k!=j){
-                        if(pow(distance(list[i],list[j],10),gamma)>=pow(distance(list[k],list[j],10),gamma)+pow(distance(list[i],list[k],10),gamma)){
+                        if(pow(distance(list[i],list[j],1000),gamma)>=pow(distance(list[k],list[j],1000),gamma)+pow(distance(list[i],list[k],1000),gamma)){
                             b=false;
                             break;
                         }
@@ -88,8 +88,27 @@ QVector<Vector2D> TerrainImage::getBetaSquelTerrain(const QVector<Vector2D> &lis
                 if(b){
                     squel<<list[i]<<list[j];
                 }
+        }
+    }
+    return squel;
+}
 
-            }
+QVector<Vector2D> TerrainImage::getBetaSquelPente(const QVector<Vector2D> &list, double gamma){
+    QVector<Vector2D> squel;
+    for(int i=0;i<list.size();++i){
+        for(int j=i+1;j<list.size();++j){
+                bool b=true;
+                for(int k=0;k<list.size();++k){
+                    if(i!=k&&k!=j){
+                        if(pow(distancePente(list[i],list[j],2000),gamma)>=pow(distancePente(list[k],list[j],2000),gamma)+pow(distancePente(list[i],list[k],2000),gamma)){
+                            b=false;
+                            break;
+                        }
+                    }
+                }
+                if(b){
+                    squel<<list[i]<<list[j];
+                }
         }
     }
     return squel;
@@ -108,6 +127,36 @@ double TerrainImage::distance(const Vector2D &p1, const Vector2D &p2,int e)
         double h2=getHauteur(po2);
         dist+= Vector3D(po1,h1).distanceToPoint(Vector3D(po2,h2));
 
+    }
+
+    return dist;
+}
+
+double getCoutPente(double pente)
+{
+    if(pente < 0.1)
+        return 1;
+    else
+        return 40;
+}
+
+
+double TerrainImage::distancePente(const Vector2D &p1, const Vector2D &p2, int e)
+{
+    double dist=0;
+    for(int i=0;i<e-1;++i){
+        double f1=((double)i)/(e-1);
+        double f2=((double)i+1)/(e-1);
+        Vector2D po1=p1*f1+p2*(1-f1);
+        Vector2D po2=p1*f2+p2*(1-f2);
+
+        double h1=getHauteur(po1);
+        double h2=getHauteur(po2);
+
+        double distDiff = Vector3D(po1,h1).distanceToPoint(Vector3D(po2,h2));
+        double pente = abs(h2-h1)/distDiff;
+
+        dist += getCoutPente(pente) * distDiff;
     }
 
     return dist;
@@ -186,6 +235,8 @@ void TerrainImage::drawRoad(QVector<Vector2D> cities, QImage& imgRaw)
         y1 = (1-y1)*imgRaw.height();
         x2 *= imgRaw.width();
         y2 = (1-y2)*imgRaw.height();
+
+
 
         p.drawLine (x1, y1, x2, y2);
 
