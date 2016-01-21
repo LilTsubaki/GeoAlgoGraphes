@@ -58,29 +58,6 @@ QVector<Vector2D> Vector2D::randSquare(const Vector2D &min, const Vector2D &max,
 
     return points;
 }
-QVector<Vector2D> Vector2D::getBetaSquel(const QVector<Vector2D> &list, double gamma, TerrainImage &t){
-    QVector<Vector2D> squel;
-    for(int i=0;i<list.size();++i){
-        for(int j=0;j<list.size();++j){
-            if(i!=j){
-                bool b=true;
-                for(int k=0;k<list.size();++k){
-                    if(i!=k&&k!=j){
-                        if(pow(t.distance(list[i],list[j],10),gamma)>=pow(t.distance(list[k],list[j],10),gamma)+pow(t.distance(list[i],list[k],10),gamma)){
-                            b=false;
-                            break;
-                        }
-                    }
-                }
-                if(b){
-                    squel<<list[i]<<list[j];
-                }
-
-            }
-        }
-    }
-    return squel;
-}
 
 
 QVector<Vector2D> Vector2D::getBetaSquel(const QVector<Vector2D> &list, double gamma)

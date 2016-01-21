@@ -70,6 +70,31 @@ double TerrainImage::getPenteMax() const
     return max;
 }
 
+
+QVector<Vector2D> TerrainImage::getBetaSquelTerrain(const QVector<Vector2D> &list, double gamma){
+    QVector<Vector2D> squel;
+    for(int i=0;i<list.size();++i){
+        for(int j=0;j<list.size();++j){
+            if(i!=j){
+                bool b=true;
+                for(int k=0;k<list.size();++k){
+                    if(i!=k&&k!=j){
+                        if(pow(distance(list[i],list[j],10),gamma)>=pow(distance(list[k],list[j],10),gamma)+pow(distance(list[i],list[k],10),gamma)){
+                            b=false;
+                            break;
+                        }
+                    }
+                }
+                if(b){
+                    squel<<list[i]<<list[j];
+                }
+
+            }
+        }
+    }
+    return squel;
+}
+
 double TerrainImage::distance(const Vector2D &p1, const Vector2D &p2,int e)
 {
     double dist=0;
